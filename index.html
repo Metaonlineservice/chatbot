@@ -130,7 +130,7 @@
             const resDiv = document.getElementById('cellResult');
             resDiv.classList.remove('hidden');
             resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs text-yellow-500 animate__animated animate__pulse infinite";
-            resDiv.innerText = '⏳ در حال دریافت اطلاعات از شیت گوگل...';
+            resDiv.innerText = '⏳  در حال دریافت اطلاعات از دیتابس ...';
             
             try {
                 const response = await fetch(`${WEB_APP_URL}?sheet=${encodeURIComponent(sheetName)}&col=${colIndex}`);
@@ -146,7 +146,7 @@
                 resDiv.innerText = '⚠️ اطلاعاتی در این بخش ثبت نشده است.';
             } catch (e) {
                 resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-red-700 text-xs text-red-400";
-                resDiv.innerText = '❌ خطای شبکه یا عدم دسترسی به گوگل شیت.';
+                resDiv.innerText = '❌ خطای شبکه یا عدم دسترسی به دیتابس.';
             }
         }
 
