@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>میتا آنلاین سرویس | پورتال وب دایرکت</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .grid-btn { transition: all 0.3s ease; }
+        .grid-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2); }
+        .modal { display: none; background-color: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <header class="text-center py-10 animate__animated animate__fadeInDown">
+        <div class="inline-block p-2 bg-slate-800 rounded-full border-2 border-yellow-500 shadow-lg mb-4">
+            <img src="https://raw.githubusercontent.com/Metaonlineservice/my-telegram-bot/main/logo.png" alt="Meta Online" class="w-24 h-24 object-contain rounded-full">
+        </div>
+        <h1 class="text-3xl font-extrabold text-yellow-500 tracking-wide">META ONLINE SERVICE</h1>
+        <p class="text-slate-400 mt-2 text-sm max-w-md mx-auto px-4">«سامانه هوشمند و تحت وب ارائه خدمات مهاجرتی و بین‌المللی»</p>
+    </header>
+
+    <main class="container mx-auto max-w-4xl px-4 py-6 flex-grow">
+        <div class="grid grid-cols-2 gap-4 sm:gap-6 animate__animated animate__fadeInUp">
+            
+            <button onclick="openMenu('services')" class="grid-btn bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center focus:outline-none">
+                <span class="text-3xl block mb-2">💼</span>
+                <span class="text-base font-bold text-slate-200">خدمات ما</span>
+            </button>
+
+            <button onclick="openMenu('contact')" class="grid-btn bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center focus:outline-none">
+                <span class="text-3xl block mb-2">📞</span>
+                <span class="text-base font-bold text-slate-200">ارتباط با ما</span>
+            </button>
+
+            <button onclick="openMenu('new_request')" class="grid-btn bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center focus:outline-none">
+                <span class="text-3xl block mb-2">📝</span>
+                <span class="text-base font-bold text-slate-200">درخواست جدید</span>
+            </button>
+
+            <button onclick="fetchDashboard()" class="grid-btn bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center focus:outline-none">
+                <span class="text-3xl block mb-2">📊</span>
+                <span class="text-base font-bold text-slate-200">دشبورد های فعال</span>
+            </button>
+
+            <button onclick="openMenu('packages')" class="grid-btn bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center col-span-2 focus:outline-none">
+                <span class="text-3xl block mb-2">📦</span>
+                <span class="text-base font-bold text-slate-200">پکیج های موجود</span>
+            </button>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800">
+        &copy; 2026 میتا آنلاین سرویس. تمامی حقوق محفوظ است.
+    </footer>
+
+    <div id="contentModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-2xl rounded-3xl p-6 relative animate__animated animate__zoomIn">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            <h3 id="modalTitle" class="text-xl font-bold text-yellow-500 mb-4 border-b border-slate-700 pb-2">عنوان</h3>
+            <div id="modalBody" class="text-slate-300 space-y-3 max-h-[70vh] overflow-y-auto text-sm leading-relaxed"></div>
+        </div>
+    </div>
+
+    <script>
+        // لینک اختصاصی گوگل اپ اسکریپت شما به طور کامل جایگذاری شد
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxhOrrb2lzZXfV1z7vSjrj41lOqZ8BT8dTwsKkoUnvyeX0lFyt83bHxeWMjLzSTxvfeew/exec";
+
+        function openMenu(type) {
+            const modal = document.getElementById('contentModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            modal.style.display = 'flex';
+            body.innerHTML = '';
+
+            if (type === 'services') {
+                title.innerText = '💼 خدمات مهاجرتی و انواع ویزاها';
+                createSubMenu('Humanitarian visas', [
+                    { name: '🇦🇺 ویزا بشردوستانه استرالیا', col: 1 }, { name: '🇧🇷 ویزا بشردوستانه برازیل', col: 2 },
+                    { name: '🇩🇪 ویزا بشردوستانه المان', col: 3 }, { name: '🇫🇷 ویزا بشردوستانه فرانسه', col: 4 },
+                    { name: '🇬🇧 ویزا بشردوستانه انگلیس', col: 5 }, { name: '🇨🇭 ویزا بشروستانه سویس', col: 6 },
+                    { name: '🇹🇷 ویزا کاری ترکیه', col: 7 }, { name: '🇹🇷 ویزا سیاحتی ترکیه', col: 8 },
+                    { name: '🇹🇷 ویزا درمانی ترکیه', col: 9 }, { name: '🇮🇷 ویزا کاری ایران', col: 10 },
+                    { name: '🇮🇷 ویزا درمانی ایران', col: 11 }, { name: '🇮🇷 ویزا کاری یک ماه ایران', col: 12 },
+                    { name: '🇮🇷 ویزا تجارتی ایران', col: 13 }, { name: '🇹🇷 ویزا تجارتی ترکیه', col: 14 },
+                    { name: '🇵🇰 ویزا تجارتی پاکستان', col: 15 }, { name: '🇵🇰 ویزا درمانی پاکستان', col: 16 }
+                ]);
+            } else if (type === 'contact') {
+                title.innerText = '📞 راه‌های ارتباط با ما';
+                createSubMenu('Contact', [
+                    { name: '💬 واتساپ پشتیبانی', col: 1 }, { name: '🌐 وب‌سایت رسمی', col: 2 },
+                    { name: '🔵 صفحه فیس‌بوک', col: 3 }, { name: '📸 اینستاگرام', col: 4 },
+                    { name: '📧 ایمیل آدرس', col: 5 }, { name: '💬 ربات چت پشتیبانی', col: 6 },
+                    { name: '🏢 آدرس دفتر مرکزی', col: 7 }
+                ]);
+            } else if (type === 'new_request') {
+                title.innerText = '📝 ثبت درخواست جدید آنلاین';
+                createSubMenu('Humanitarian', [
+                    { name: '🌍 فرم بشردوستانه', col: 1 }, { name: '🛠️ فرم کاری', col: 2 },
+                    { name: '🏥 فرم درمانی', col: 3 }, { name: '✈️ فرم سیاحتی', col: 4 },
+                    { name: '🎓 فرم تحصیلی', col: 5 }, { name: '🔍 پیگیری پرونده‌های موجود', col: 6 }
+                ]);
+            } else if (type === 'packages') {
+                title.innerText = '📦 پکیج‌های خدمات میتا پلاس';
+                createSubMenu('MetaPlusePackege', [
+                    { name: '⭐ مشخصات پکیج عالی (Premium)', col: 1 },
+                    { name: '🥈 مشخصات پکیج نیمه عالی (Standard)', col: 2 },
+                    { name: '🥉 مشخصات پکیج عادی (Basic)', col: 3 }
+                ]);
+            }
+        }
+
+        function createSubMenu(sheetName, items) {
+            const body = document.getElementById('modalBody');
+            let gridHtml = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+            items.forEach(item => {
+                gridHtml += `<button onclick="fetchData('${sheetName}', ${item.col})" class="bg-slate-900 hover:bg-slate-700 border border-slate-700 text-right p-3 rounded-xl font-medium text-xs text-slate-200 transition-colors">${item.name}</button>`;
+            });
+            gridHtml += '</div><div id="cellResult" class="mt-4 p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs text-yellow-400 hidden whitespace-pre-line leading-relaxed"></div>';
+            body.innerHTML = gridHtml;
+        }
+
+        async function fetchData(sheetName, colIndex) {
+            const resDiv = document.getElementById('cellResult');
+            resDiv.classList.remove('hidden');
+            resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs text-yellow-500 animate__animated animate__pulse infinite";
+            resDiv.innerText = '⏳ در حال دریافت اطلاعات از شیت گوگل...';
+            
+            try {
+                const response = await fetch(`${WEB_APP_URL}?sheet=${encodeURIComponent(sheetName)}&col=${colIndex}`);
+                if (response.ok) {
+                    const json = await response.json();
+                    resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs text-yellow-400 whitespace-pre-line leading-relaxed animate__animated animate__fadeIn";
+                    if (json.data) {
+                        resDiv.innerHTML = json.data;
+                        return;
+                    }
+                }
+                resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-red-700 text-xs text-red-400";
+                resDiv.innerText = '⚠️ اطلاعاتی در این بخش ثبت نشده است.';
+            } catch (e) {
+                resDiv.className = "mt-4 p-4 bg-slate-900 rounded-xl border border-red-700 text-xs text-red-400";
+                resDiv.innerText = '❌ خطای شبکه یا عدم دسترسی به گوگل شیت.';
+            }
+        }
+
+        async function fetchDashboard() {
+            openMenu('dashboard');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            title.innerText = '📊 وضعیت دشبوردهای فعال';
+            body.innerHTML = '<div id="cellResult" class="p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs text-yellow-400"></div>';
+            await fetchData('Dashboard', 1);
+        }
+
+        function closeModal() {
+            document.getElementById('contentModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
